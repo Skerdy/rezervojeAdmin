@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/shade_login"
+        >
+
+        <LinearLayout
+            android:id="@+id/loginPanel"
+            android:padding="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/rounded_corner"
+            android:orientation="vertical">
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                app:mtf_labelColor="#fff"
+                app:mtf_image="@drawable/ic_icons_email"
+                >
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:textColor="#fff"
+                    android:textSize="15sp" />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                app:mtf_labelColor="#fff"
+                app:mtf_image="@drawable/ic_icons_email"
+                >
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:textColor="#fff"
+                    android:textSize="15sp" />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_below="@+id/loginPanel"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="HYR"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"/>
+
+        <LinearLayout
+            android:id="@+id/registerTrigger"
+            android:layout_alignParentBottom="true"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:background="@color/shade_register"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#fff"
+                android:text="Nuk keni një llogari?" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="13sp"
+                android:text="Rregjistrohuni këtu!" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

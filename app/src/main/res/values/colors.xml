@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#474544</color>
+    <color name="colorPrimaryDark">#4D4D4D</color>
+    <color name="colorAccent">#ED8323</color>
+    <color name="gradient_start">#009688</color>
+    <color name="shade_login">#44009688</color>
+    <color name="shade_register">#CCf44336</color>
+    <color name="gradient_end">#4CAF50</color>
+    <color name="shade_login_text">#444CAF50</color>
+    <color name="tutorial_background_opaque">#0F9D58</color>
+</resources>
