@@ -11,11 +11,13 @@ public class PositionController {
     private static final String TAG = "PositionController";
     private SliderRecyclerViewAdapter recyclerViewAdapter;
     private SliderAdapter sliderAdapter;
+    private SliderLayoutAdapter sliderLayoutAdapter;
     private boolean loop;
 
-    public PositionController(SliderAdapter sliderAdapter, boolean loop) {
+    public PositionController(SliderAdapter sliderAdapter, boolean loop, SliderLayoutAdapter sliderLayoutAdapter) {
         this.sliderAdapter = sliderAdapter;
         this.loop = loop;
+        this.sliderLayoutAdapter = sliderLayoutAdapter;
     }
 
     public int getUserSlidePosition(int position) {
@@ -46,7 +48,11 @@ public class PositionController {
     }
 
     public int getLastUserSlidePosition() {
+        if(sliderAdapter!=null)
         return sliderAdapter.getItemCount() - 1;
+        else{
+            return sliderLayoutAdapter.getItemCount()-1;
+        }
     }
 
     public int getFirstUserSlidePosition() {

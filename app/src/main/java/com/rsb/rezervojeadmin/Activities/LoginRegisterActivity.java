@@ -4,9 +4,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
 
-import com.rsb.rezervojeadmin.Fragments.LoginFragment;
+import com.rsb.rezervojeadmin.Fragments.WelcomeFragment;
 import com.rsb.rezervojeadmin.PicassoImageLoadingService;
 import com.rsb.rezervojeadmin.R;
 
@@ -29,8 +28,8 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     private void initLoginFragment(){
         fragmentTransaction=getSupportFragmentManager().beginTransaction();
-        LoginFragment loginFragment = new LoginFragment();
-        fragmentTransaction.replace(R.id.fragmentPlaceHolder, loginFragment ,"login");
+        WelcomeFragment welcomeFragment = new WelcomeFragment();
+        fragmentTransaction.replace(R.id.fragmentPlaceHolder, welcomeFragment,"login");
         fragmentTransaction.commitAllowingStateLoss();
     }
 }

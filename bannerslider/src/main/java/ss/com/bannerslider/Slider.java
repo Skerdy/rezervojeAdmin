@@ -22,6 +22,7 @@ import java.util.TimerTask;
 
 import ss.com.bannerslider.adapters.PositionController;
 import ss.com.bannerslider.adapters.SliderAdapter;
+import ss.com.bannerslider.adapters.SliderLayoutAdapter;
 import ss.com.bannerslider.adapters.SliderRecyclerViewAdapter;
 import ss.com.bannerslider.event.OnSlideChangeListener;
 import ss.com.bannerslider.event.OnSlideClickListener;
@@ -42,6 +43,7 @@ public class Slider extends FrameLayout {
     public SlideIndicatorsGroup slideIndicatorsGroup;
     public int pendingPosition = RecyclerView.NO_POSITION;
     public SliderAdapter sliderAdapter;
+    public SliderLayoutAdapter sliderLayoutAdapter;
     public Config config;
     public int selectedSlidePosition = 0;
     public Timer timer;
@@ -179,6 +181,10 @@ public class Slider extends FrameLayout {
         return this.sliderAdapter;
     }
 
+    public SliderLayoutAdapter getSliderLayoutAdapter(){
+        return this.sliderLayoutAdapter;
+    }
+
     public void setAdapter(SliderAdapter sliderAdapter) {
         if (sliderAdapter != null && recyclerView != null) {
             this.sliderAdapter = sliderAdapter;
@@ -195,8 +201,8 @@ public class Slider extends FrameLayout {
             recyclerView.setNestedScrollingEnabled(false);
             final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
             recyclerView.setLayoutManager(linearLayoutManager);
-            positionController = new PositionController(sliderAdapter, config.loopSlides);
-            adapter = new SliderRecyclerViewAdapter(sliderAdapter, sliderAdapter.getItemCount() > 1 && config.loopSlides, recyclerView.getLayoutParams(), new OnTouchListener() {
+            positionController = new PositionController(sliderAdapter, config.loopSlides, null);
+            adapter = new SliderRecyclerViewAdapter(sliderLayoutAdapter, sliderAdapter, sliderAdapter.getItemCount() > 1 && config.loopSlides, recyclerView.getLayoutParams(), new OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -236,6 +242,66 @@ public class Slider extends FrameLayout {
             if (emptyView != null) {
                 emptyView.setVisibility(GONE);
             }
+        }
+        //Skerdi code
+
+    }
+
+    public void setSliderLayoutAdapter(SliderLayoutAdapter sliderLayoutAdapter){
+        if(sliderLayoutAdapter != null && recyclerView != null) {
+            this.sliderLayoutAdapter=sliderLayoutAdapter;
+            if (indexOfChild(recyclerView) == -1) {
+                if (getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT) {
+                    recyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                } else {
+                    recyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                }
+
+                addView(recyclerView);
+            }
+        }
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        positionController = new PositionController(null, config.loopSlides, sliderLayoutAdapter);
+        adapter = new SliderRecyclerViewAdapter(sliderLayoutAdapter, null, sliderLayoutAdapter.getItemCount() > 1 && config.loopSlides, recyclerView.getLayoutParams(), new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    stopTimer();
+                } else if (event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP) {
+                    startTimer();
+                }
+                return false;
+            }
+        }, positionController);
+
+        recyclerView.setAdapter(adapter);
+        positionController.setRecyclerViewAdapter(adapter);
+
+        //Show default selected slide
+        selectedSlidePosition = config.loopSlides ? 1 : 0;
+        recyclerView.scrollToPosition(selectedSlidePosition);
+        onImageSlideChange(selectedSlidePosition);
+        pendingPosition = RecyclerView.NO_POSITION;
+        onAdapterAttached();
+
+        SsSnapHelper snapHelper = new SsSnapHelper(new SsSnapHelper.OnSelectedItemChange() {
+            @Override
+            public void onSelectedItemChange(int position) {
+                onImageSlideChange(position);
+            }
+        });
+        recyclerView.setOnFlingListener(null);
+        snapHelper.attachToRecyclerView(recyclerView);
+        if (slideIndicatorsGroup != null && sliderLayoutAdapter.getItemCount() > 1) {
+            if (indexOfChild(slideIndicatorsGroup) == -1) {
+                addView(slideIndicatorsGroup);
+            }
+            slideIndicatorsGroup.setSlides(sliderLayoutAdapter.getItemCount());
+            slideIndicatorsGroup.onSlideChange(0);
+        }
+        if (emptyView != null) {
+            emptyView.setVisibility(GONE);
         }
     }
 
@@ -380,5 +446,9 @@ public class Slider extends FrameLayout {
         }
 
         refreshIndicators();
+    }
+
+    public void notifyDataSetChanged(){
+        this.adapter.notifyDataSetChanged();
     }
 }

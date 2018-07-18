@@ -25,11 +25,22 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.github.florent37:materialtextfield:1.0.7'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation "com.android.support:support-annotations:27.1.1"
+    implementation 'com.github.florent37:materialtextfield:1.0.7'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.github.clans:fab:1.6.3'
+    implementation 'com.mikepenz:google-material-typeface:3.0.1.1.original@aar'
+
+    implementation('com.mikepenz:materialdrawer:6.0.2@aar') {
+        transitive = true
+    }
     implementation project(':bannerslider')
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
-    implementation ( 'com.github.florent37:viewanimator:1.0.5'){
-        exclude group:  'com.android.support'
+    implementation('com.github.florent37:viewanimator:1.0.5') {
+        exclude group: 'com.android.support'
         exclude module: 'appcompat-v7'
         exclude module: 'support-v4'
     }

@@ -14,4 +14,16 @@
     </style>
 
 
+    <style name="MenuButtonsSmall">
+        <item name="fab_size">mini</item>
+        <item name="fab_colorNormal">@color/fab_menu_colorNormal</item>
+        <item name="fab_colorPressed">@color/fab_menu_colorPressed</item>
+        <item name="fab_colorRipple">@color/fab_menu_colorRipple</item>
+    </style>
+
+    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">#ffffff</item>
+        <item name="android:textColorPrimary">@color/primary</item>
+        <item name="android:background">@color/primary</item>
+    </style>
 </resources>
