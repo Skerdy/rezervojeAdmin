@@ -3,6 +3,7 @@ package com.rsb.rezervojeadmin.Activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -26,9 +28,12 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.rsb.rezervojeadmin.Fragments.CompanyInfoFragment;
 import com.rsb.rezervojeadmin.R;
 import com.rsb.rezervojeadmin.Retrofit.RetrofitClient;
 import com.rsb.rezervojeadmin.Utils.MySharedPref;
+
+import java.util.ArrayList;
 
 import retrofit2.Retrofit;
 
@@ -49,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fragmentManager = getSupportFragmentManager();
         setupViews();
+
     }
 
     private void setupViews(){
@@ -57,15 +64,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.md_white_1000));
         toolbar.setTitle("Home");
-        setTitle("Home");
-        setupNavigationDrawer();
+        setupNavigationDrawer(this.toolbar);
     }
 
 
-    private void setupNavigationDrawer(){
+    private void setupNavigationDrawer(Toolbar toolbar){
+
         PrimaryDrawerItem appointments = new PrimaryDrawerItem().withIdentifier(0).withName("Appointments").withIcon(R.drawable.ic_icons_appointments_normal).withSelectedIcon(R.drawable.ic_icons_appointments_clicked);
-
-
         ExpandableDrawerItem expandableDrawerItem = new ExpandableDrawerItem().withName("Business Profile").withIcon(R.drawable.ic_icons_bussiness_profile_normal).withSelectedIcon(R.drawable.ic_icons_bussiness_profile_clicked).withIdentifier(19).withSelectable(true).withSubItems(
                 new SecondaryDrawerItem().withName("Company Info").withLevel(2).withIcon(R.drawable.ic_icons_company_info_normal).withSelectedIcon(R.drawable.ic_icons_company_info_clicked).withIdentifier(2002),
                 new SecondaryDrawerItem().withName("Categories").withLevel(2).withIcon(R.drawable.ic_icons_category_normal).withSelectedIcon(R.drawable.ic_icons_category_clicked).withIdentifier(2003),
@@ -118,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         break;
                                     case 3:
-
+                                        initCompanyInfoFragment();
                                         break;
                                     case 4:
 
@@ -137,5 +142,28 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).withAccountHeader(headerResult)
                 .build();
+    }
+
+    private void initCompanyInfoFragment(){
+        fragmentTransaction = fragmentManager.beginTransaction();
+        CompanyInfoFragment companyInfoFragment = new CompanyInfoFragment();
+        fragmentTransaction.replace(R.id.fragmentLogin, companyInfoFragment);
+        fragmentTransaction.commit();
+
+    }
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    public void setToolbarGone(){
+        this.toolbar.setVisibility(View.GONE);
+    }
+
+    public void updateDrawerToolbar(Toolbar toolbar){
+        this.toolbar.setVisibility(View.GONE);
+        toolbar.setNavigationIcon(R.drawable.ic_icons_company_info_clicked);
+        toolbar.setNavigationIcon(result.getActionBarDrawerToggle().getDrawerArrowDrawable());
+        result.setToolbar(this, toolbar);
     }
 }
